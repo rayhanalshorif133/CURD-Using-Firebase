@@ -57,15 +57,19 @@ apiController.createData = async (req, res) => {
             ];
         }
         
+        const resData = await dbRef.set({data});
+        if(resData){
+            // last data fetch
+            const doc = await dbRef.get();
+            data = doc.data().data;
+            const newData = data[data.length - 1];
+            respondWithSuccess(res, 'Data created successfully done', newData);
+        }else{
+            respondWithError(res, 'Data created failed');
+        }
 
 
-    
-        const doc = await dbRef.set({data});
-    
-        res.json({
-            message: 'Data created successfully',
-            db: doc
-        });
+
 };
 
 
