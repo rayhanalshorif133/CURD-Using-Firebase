@@ -8,6 +8,7 @@
 const db = require('../firebase');
 var _ = require('lodash');
 const { respondWithSuccess, respondWithError } = require('../libs/jsonResponse');
+const bcrypt = require('bcrypt');
 
 const dbRef = db.collection('curd').doc('users');
 
@@ -36,26 +37,24 @@ apiController.createData = async (req, res) => {
     
         const { name, email, phone,address,password } = req.body;
 
+        var hasPass = "";
+        bcrypt.hash(password, 10, function(err, hash) {
+            hasPass = hash;
+        });
+
         const getDoc = await dbRef.get();
-        var data = [];
+        var data = [{
+            name,
+            email,
+            phone,
+            address,
+            password:hasPass
+        }];
+
         if(!_.isEmpty(getDoc._fieldsProto)) {
             data = [
                 ...getDoc.data().data,
-                {
-                    name,
-                    email,
-                    phone,
-                    address
-                }
-            ];
-        }else{
-            data = [
-                {
-                    name,
-                    email,
-                    phone,
-                    address
-                }
+                ...data,
             ];
         }
         
