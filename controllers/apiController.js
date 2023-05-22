@@ -34,7 +34,7 @@ apiController.getAllData = async (req, res) => {
 // create data
 apiController.createData = async (req, res) => {
     
-        const { name, email, phone } = req.body;
+        const { name, email, phone,address,password } = req.body;
 
         const getDoc = await dbRef.get();
         var data = [];
@@ -44,7 +44,8 @@ apiController.createData = async (req, res) => {
                 {
                     name,
                     email,
-                    phone
+                    phone,
+                    address
                 }
             ];
         }else{
@@ -52,7 +53,8 @@ apiController.createData = async (req, res) => {
                 {
                     name,
                     email,
-                    phone
+                    phone,
+                    address
                 }
             ];
         }
@@ -67,9 +69,6 @@ apiController.createData = async (req, res) => {
         }else{
             respondWithError(res, 'Data created failed');
         }
-
-
-
 };
 
 
