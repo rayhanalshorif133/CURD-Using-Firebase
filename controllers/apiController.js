@@ -24,7 +24,11 @@ apiController.getAllData = async (req, res) => {
         respondWithSuccess(res, 'No data found');
         return;
     }
-    const data = doc.data().data;
+    var data = doc.data().data;
+    // remove password
+    data.forEach((item, index) => {
+        delete data[index].password;
+    });
     respondWithSuccess(res, 'Data fetched successfully', data);
 };
 
