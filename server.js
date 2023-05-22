@@ -7,6 +7,7 @@ app.use(express.json());
 
 // dependencies
 const APIRoutes = require('./routes/apiRoutes');
+const HomeController = require('./controllers/homeController');
 
 // Static files
 app.use(express.static(__dirname + '/public'));
@@ -17,12 +18,8 @@ const PORT = process.env.PORT || 3001;
 
 
 // Routes
-
 app.use('/api', APIRoutes);
-
-app.get('/', (req, res) => {
-    res.render('index', { title: 'Home' , port: PORT});
-});
+app.get('/', HomeController.index);
 
 
 // Listen on port 3000

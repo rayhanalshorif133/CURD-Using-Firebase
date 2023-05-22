@@ -37,6 +37,24 @@ apiController.getAllData = async (req, res) => {
 
 
 // get single data
+apiController.getSingleData = async (req, res) => {
+    const { id } = req.params;
+
+    const doc = await userRef.get();
+    if (_.isEmpty(doc._fieldsProto)) {
+        respondWithSuccess(res, 'No data found');
+        return;
+    }
+    var data = doc.data().data;
+    const index = data.findIndex(item => item._id === id);
+    if (index === -1) {
+        respondWithError(res, 'No data found');
+        return;
+    }
+    // remove password
+    delete data[index].password;
+    respondWithSuccess(res, 'Data fetched successfully', data[index]);
+};
 
 // create data
 apiController.createData = async (req, res) => {
@@ -141,6 +159,29 @@ apiController.updateData = async (req, res) => {
 
 // delete data
 apiController.deleteData = async (req, res) => {
+    const { id } = req.params;
+
+    // get data where id = id
+    const getData = await userRef.get();
+    if (_.isEmpty(getData._fieldsProto)) {
+        respondWithError(res, 'No data found');
+        return;
+    }
+    var data = getData.data().data;
+    const index = data.findIndex(item => item._id === id);
+    if (index === -1) {
+        respondWithError(res, 'No data found');
+        return;
+    }
+
+    // delete data
+    data.splice(index, 1);
+    const resData = await userRef.set({ data });
+    if (!resData) {
+        respondWithError(res, 'Data deleted failed');
+        return;
+    }
+
     respondWithSuccess(res, 'Data deleted successfully');
 };
 
