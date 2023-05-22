@@ -9,8 +9,13 @@ const { VITE_APP_API_URL } = import.meta.env;
 
 const URL = `${VITE_APP_API_URL}/fetch-all`;
 console.log(URL);
+fetch("/api/fetch-all")
+      .then(response => response.json())
+      .then(json => console.log(json))
 
-axios.get('http://localhost:5000/api/fetch-all')
+
+
+axios.get('https://jsonplaceholder.typicode.com/todos')
     .then((response) => {
         console.log(response);
     });
@@ -38,7 +43,7 @@ export default function UserInfo() {
                                     <Typography
                                         variant="small"
                                         color="blue-gray"
-                                        className="font-normal leading-none opacity-70"
+                                        className="font-normal leading-none opacity-90"
                                     >
                                         {head}
                                     </Typography>
