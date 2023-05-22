@@ -54,17 +54,7 @@
         <div class="row">
             <div class="col-lg-12 mx-auto">
                 <div class="card rounded-0 border-0 shadow">
-
-                    <!-- Card header-->
-                    <div class="card-header p-0">
-                        <div class="bg-dark-sky text-white text-center py-2">
-                            <h5><i class="fa fa-list"></i> API List</h5>
-                        </div>
-                    </div>
-
                     <div class="card-body p-5">
-
-                        <h5 class="text-muted"><strong class="text-uppercase">Base Url:</strong> <%=baseurl %></h4>
                         
                         <!--  Bootstrap table-->
                         <div class="table-responsive">
@@ -78,24 +68,39 @@
                                         <th scope="col">Body</th>
                                         <th scope="col">Send Body Type</th>
                                         <th scope="col">Status</th>
-                                        <th scope="col">Description</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                  <% data.forEach(function(item, index){ %>
+                                  
                                     <tr>
-                                      <th scope="row"><%= index+1 %></th>
-                                      <td class="w-15"><%= item.action_name %></td>
-                                      <td><span class="<%= item.badge %>"><%= item.method %></span></td>
-                                      <td class="w-25"><%= item.api_url %></td>
-                                      <td><%= item.body %></td>
-                                      <td><%= item.send_body_type %></td>
-                                      <td><span class="<%= item.badge %>"><%= item.status %></span></td>
-                                      <td><%= item.description %></td>
-                                      <td><a href="<%= item.api_url %>" target="_blank" class="<%= item.btn %> btn-sm">Try it</a></td>
-                                  </tr>
-                                    <% }); %>
+                                        <th scope="row">1</th>
+                                        <td>Fetch All</td>
+                                        <td><span class="badge bg-info">GET</span></td>
+                                        <td class="w-25">http://localhost:<%= port %>/api/fetch-all</td>
+                                        <td>None</td>
+                                        <td>None</td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                        <td><a href="http://localhost:<%= port %>/api/fetch-all" class="btn btn-outline-primary btn-sm">Try it</a></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Create</td>
+                                        <td><span class="badge bg-info">POST</span></td>
+                                        <td class="w-25">http://localhost:<%= port %>/api/create </td>
+                                        <td>
+                                          {
+                                            "name": "rayhan",
+                                            "email": "rayhan@gmail.com",
+                                            "password": "password",
+                                            "phone": "019239881212",
+                                            "address": "Dhaka, Bangladesh"
+                                         }
+                                        </td>
+                                        <td>JSON</td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                        <td><a href="http://localhost:<%= port %>/api/create" class="btn btn-outline-primary btn-sm">Try it</a></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

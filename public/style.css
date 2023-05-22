@@ -14,3 +14,10 @@ body {
 .ml-auto{
     float: end;
 }
+
+.w-15{
+    width: 15%;
+}
+.bg-dark-sky{
+    background-color: #0093c0;
+}
