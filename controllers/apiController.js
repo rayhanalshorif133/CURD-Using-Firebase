@@ -11,6 +11,7 @@ const { respondWithSuccess, respondWithError } = require('../libs/jsonResponse')
 const bcrypt = require('bcrypt');
 const generatePushId = require('../libs/generatePushId');
 
+
 const dbRef = db.collection('curd').doc('users');
 
 
@@ -20,18 +21,6 @@ const apiController = {};
 
 // get all data
 apiController.getAllData = async (req, res) => {
-
-    var number = 0;
-    var number2 = 100;
-
-    start_position: while (true) {
-        number++;
-        console.log(number);
-
-        if (number == 10) continue start_position;
-        if (number == 20) break;
-    }
-
 
     const doc = await dbRef.get();
     if (_.isEmpty(doc._fieldsProto)) {
@@ -60,8 +49,9 @@ apiController.createData = async (req, res) => {
     });
 
     var getDoc = await dbRef.get();
+    var _id = "";
     checkDuplicatedID: while (true) {
-        const _id = generatePushId(24);
+        _id = generatePushId(24);
         getDoc = await dbRef.get();
         if (!_.isEmpty(getDoc._fieldsProto)) {
             const data = getDoc.data().data;
@@ -77,8 +67,9 @@ apiController.createData = async (req, res) => {
     }
 
 
+
     var data = [{
-        _id: generatePushId(24),
+        _id: _id,
         name,
         email,
         phone,
@@ -107,6 +98,45 @@ apiController.createData = async (req, res) => {
 
 
 // update data
+apiController.updateData = async (req, res) => {
+    const { id } = req.params;
+    const { name, email, phone, address, password } = req.body;
+
+    var hasPass = "";
+    bcrypt.hash(password, 10, function (err, hash) {
+        hasPass = hash;
+    });
+
+    // get data where id = id
+
+    const doc = await dbRef.get();
+    if (_.isEmpty(doc._fieldsProto)) {
+        respondWithError(res, 'No data found');
+        return;
+    }
+    var data = doc.data().data;
+    const index = data.findIndex(item => item._id === id);
+    if (index === -1) {
+        respondWithError(res, 'No data found');
+        return;
+    }
+    // update data
+    data[index].name = name;
+    data[index].email = email;
+    data[index].phone = phone;
+    data[index].address = address;
+    data[index].password = hasPass;
+    const resData = await dbRef.set({ data });
+    if (resData) {
+        // last data fetch
+        const doc = await dbRef.get();
+        data = doc.data().data;
+        const newData = data.findIndex(item => item._id === id);
+        respondWithSuccess(res, 'Data updated successfully', data[newData]);
+    } else {
+        respondWithError(res, 'Data updated failed');
+    }
+};
 
 
 // delete data
