@@ -108,7 +108,7 @@ apiController.createData = async (req, res) => {
         const doc = await userRef.get();
         data = doc.data().data;
         const newData = data[data.length - 1];
-        respondWithSuccess(res, 'Data created successfully done', newData);
+        respondWithSuccess(res, 'Data created successfully done', newData, 201 );
     } else {
         respondWithError(res, 'Data created failed');
     }
@@ -182,7 +182,7 @@ apiController.deleteData = async (req, res) => {
         return;
     }
 
-    respondWithSuccess(res, 'Data deleted successfully');
+    respondWithSuccess(res, 'Data deleted successfully', [], 202);
 };
 
 
