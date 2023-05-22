@@ -5,14 +5,14 @@
 */
 
 // dependencies
-const db = require('../firebase');
+const { curd } = require('../database/collections');
 var _ = require('lodash');
 const { respondWithSuccess, respondWithError } = require('../libs/jsonResponse');
 const bcrypt = require('bcrypt');
 const generatePushId = require('../libs/generatePushId');
 
 
-const dbRef = db.collection('curd').doc('users');
+const userRef = curd.doc('users');
 
 
 // app scaffolding
@@ -22,7 +22,7 @@ const apiController = {};
 // get all data
 apiController.getAllData = async (req, res) => {
 
-    const doc = await dbRef.get();
+    const doc = await userRef.get();
     if (_.isEmpty(doc._fieldsProto)) {
         respondWithSuccess(res, 'No data found');
         return;
@@ -48,20 +48,20 @@ apiController.createData = async (req, res) => {
         hasPass = hash;
     });
 
-    var getDoc = await dbRef.get();
+    var getDoc = await userRef.get();
     var _id = "";
     checkDuplicatedID: while (true) {
         _id = generatePushId(24);
-        getDoc = await dbRef.get();
+        getDoc = await userRef.get();
         if (!_.isEmpty(getDoc._fieldsProto)) {
             const data = getDoc.data().data;
             const isExist = data.filter(item => item._id === _id);
             if (isExist.length > 0) {
                 continue checkDuplicatedID;
-            }else{
+            } else {
                 break;
             }
-        }else{
+        } else {
             break;
         }
     }
@@ -84,10 +84,10 @@ apiController.createData = async (req, res) => {
         ];
     }
 
-    const resData = await dbRef.set({ data });
+    const resData = await userRef.set({ data });
     if (resData) {
         // last data fetch
-        const doc = await dbRef.get();
+        const doc = await userRef.get();
         data = doc.data().data;
         const newData = data[data.length - 1];
         respondWithSuccess(res, 'Data created successfully done', newData);
@@ -109,7 +109,7 @@ apiController.updateData = async (req, res) => {
 
     // get data where id = id
 
-    const doc = await dbRef.get();
+    const doc = await userRef.get();
     if (_.isEmpty(doc._fieldsProto)) {
         respondWithError(res, 'No data found');
         return;
@@ -126,10 +126,10 @@ apiController.updateData = async (req, res) => {
     data[index].phone = phone;
     data[index].address = address;
     data[index].password = hasPass;
-    const resData = await dbRef.set({ data });
+    const resData = await userRef.set({ data });
     if (resData) {
         // last data fetch
-        const doc = await dbRef.get();
+        const doc = await userRef.get();
         data = doc.data().data;
         const newData = data.findIndex(item => item._id === id);
         respondWithSuccess(res, 'Data updated successfully', data[newData]);
