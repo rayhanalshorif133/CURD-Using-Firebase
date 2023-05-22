@@ -140,6 +140,9 @@ apiController.updateData = async (req, res) => {
 
 
 // delete data
+apiController.deleteData = async (req, res) => {
+    respondWithSuccess(res, 'Data deleted successfully');
+};
 
 
 // export
