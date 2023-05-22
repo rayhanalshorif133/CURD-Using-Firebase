@@ -1,7 +1,19 @@
 import React from 'react'
 import { Card, Typography } from "@material-tailwind/react";
+import axios from 'axios';
 
 const TABLE_HEAD = ["Name", "Job", "Employed", "Actions"];
+
+const { VITE_APP_API_URL } = import.meta.env;
+
+
+const URL = `${VITE_APP_API_URL}/fetch-all`;
+console.log(URL);
+
+axios.get('http://localhost:5000/api/fetch-all')
+    .then((response) => {
+        console.log(response);
+    });
 
 
 const TABLE_ROWS = [
@@ -9,26 +21,6 @@ const TABLE_ROWS = [
         name: "John Michael",
         job: "Manager",
         date: "23/04/18",
-    },
-    {
-        name: "Alexa Liras",
-        job: "Developer",
-        date: "23/04/18",
-    },
-    {
-        name: "Laurent Perrier",
-        job: "Executive",
-        date: "19/09/17",
-    },
-    {
-        name: "Michael Levi",
-        job: "Developer",
-        date: "24/12/08",
-    },
-    {
-        name: "Richard Gran",
-        job: "Manager",
-        date: "04/10/21",
     },
 ];
 
