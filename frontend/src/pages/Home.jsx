@@ -1,10 +1,6 @@
-import React from 'react'
-import {
-  Typography,
-  Card,
-} from "@material-tailwind/react";
+import React from 'react';
 import Header from '../components/Header';
-import UserInfo from '../components/UserInfo';
+import UserInfo from './../components/UserInfo';
 
 export default function Home() {
   return (
