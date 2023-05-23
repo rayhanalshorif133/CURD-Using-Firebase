@@ -1,6 +1,7 @@
 import { Card, Typography } from "@material-tailwind/react";
 import axios from "axios";
 import React, { useEffect } from 'react';
+import AddNewUser from './AddNewUser';
 
 
 export default function UserInfo() {
@@ -28,17 +29,10 @@ export default function UserInfo() {
         fetchData();
     }, [isLoading]);
 
-
-
-
-
-
-
-
-
     return (
         <div className='container m-auto align-middle mt-20'>
             <Card className="overflow-scroll h-full w-full">
+                <AddNewUser />
                 <table className="w-full min-w-max table-auto text-left">
                     <thead>
                         <tr>
