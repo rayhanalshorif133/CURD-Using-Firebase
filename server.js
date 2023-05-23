@@ -2,8 +2,10 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const app = express();
+const cors = require('cors');
 dotenv.config();
 app.use(express.json());
+app.use(cors());
 
 // dependencies
 const APIRoutes = require('./routes/apiRoutes');
@@ -23,5 +25,5 @@ app.get('/', HomeController.index);
 
 
 // Listen on port 3000
-app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
+app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 

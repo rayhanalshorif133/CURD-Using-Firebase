@@ -1,28 +1,32 @@
 import { Card, Typography } from "@material-tailwind/react";
+import axios from "axios";
 import React, { useEffect } from 'react';
 
 
 export default function UserInfo() {
 
-
-    const TABLE_HEAD = ["Name", "Job", "Employed", "Actions"];
-
+    const [userData, setUserData] = React.useState([]);
+    const [isLoading, setIsLoading] = React.useState(true);
     const { VITE_APP_API_URL } = import.meta.env;
 
+    const TABLE_HEAD = ["Name", "Email", "Address", "Phone", "Actions"];
 
-
-    const TABLE_ROWS = [
-        {
-            name: "John Michael",
-            job: "Manager",
-            date: "23/04/18",
-        },
-    ];
+    const fetchData = async () => {
+        const URL = `${VITE_APP_API_URL}/fetch-all`
+        const response = await axios.get(URL);
+        const { status, data, message } = response.data;
+        if (status === true) {
+            setUserData(data);
+            setIsLoading(false);
+        } else {
+            console.log(message);
+        }
+    };
 
 
     useEffect(() => {
-        console.log(VITE_APP_API_URL);
-    }, []);
+        fetchData();
+    }, [isLoading]);
 
 
 
@@ -52,35 +56,54 @@ export default function UserInfo() {
                         </tr>
                     </thead>
                     <tbody>
-                        {TABLE_ROWS.map(({ name, job, date }, index) => {
-                            const isLast = index === TABLE_ROWS.length - 1;
-                            const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
-
-                            return (
-                                <tr key={name}>
-                                    <td className={classes}>
-                                        <Typography variant="small" color="blue-gray" className="font-normal">
-                                            {name}
-                                        </Typography>
-                                    </td>
-                                    <td className={classes}>
-                                        <Typography variant="small" color="blue-gray" className="font-normal">
-                                            {job}
-                                        </Typography>
-                                    </td>
-                                    <td className={classes}>
-                                        <Typography variant="small" color="blue-gray" className="font-normal">
-                                            {date}
-                                        </Typography>
-                                    </td>
-                                    <td className={classes}>
-                                        <Typography as="a" href="#" variant="small" color="blue" className="font-medium">
-                                            Edit
+                        {
+                            isLoading ? <>
+                                <tr className="animate-pulse">
+                                    {/* middle */}
+                                    <td className="p-4 border-b border-blue-gray-50">
+                                        <Typography variant="small" color="blue-gray" className="font-normal place-content-center">
+                                            Loading...
                                         </Typography>
                                     </td>
                                 </tr>
-                            );
-                        })}
+                            </> : <>
+                                {userData.map(({ name, email, phone, address }, index) => {
+                                    const isLast = index === userData.length - 1;
+                                    const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
+
+                                    return (
+                                        <tr key={name}>
+                                            <td className={classes}>
+                                                <Typography variant="small" color="blue-gray" className="font-normal">
+                                                    {name}
+                                                </Typography>
+                                            </td>
+                                            <td className={classes}>
+                                                <Typography variant="small" color="blue-gray" className="font-normal">
+                                                    {email}
+                                                </Typography>
+                                            </td>
+                                            <td className={classes}>
+                                                <Typography variant="small" color="blue-gray" className="font-normal">
+                                                    {address}
+                                                </Typography>
+                                            </td>
+                                            <td className={classes}>
+                                                <Typography variant="small" color="blue-gray" className="font-normal">
+                                                    {phone}
+                                                </Typography>
+                                            </td>
+
+                                            <td className={classes}>
+                                                <Typography as="a" href="#" variant="small" color="blue" className="font-medium">
+                                                    Edit
+                                                </Typography>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </>
+                        }
                     </tbody>
                 </table>
             </Card>
