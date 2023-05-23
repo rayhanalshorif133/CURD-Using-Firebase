@@ -1,25 +1,21 @@
-import React from 'react'
+import React,{ useEffect } from 'react'
 import { Card, Typography } from "@material-tailwind/react";
 import axios from 'axios';
+
+
+export default function UserInfo() {
 
 const TABLE_HEAD = ["Name", "Job", "Employed", "Actions"];
 
 const { VITE_APP_API_URL } = import.meta.env;
 
-
-const URL = `${VITE_APP_API_URL}/fetch-all`;
-console.log(URL);
-fetch("/api/fetch-all")
-      .then(response => response.json())
-      .then(json => console.log(json))
-
-
-
-axios.get('https://jsonplaceholder.typicode.com/todos')
-    .then((response) => {
-        console.log(response);
-    });
-
+const fetchData = async () => {
+        const URL = `${VITE_APP_API_URL}/fetch-all`;
+        console.log(URL);
+        const response = await axios.get(URL);
+        const data = await response.json();
+        console.log(data);
+      };
 
 const TABLE_ROWS = [
     {
@@ -29,9 +25,10 @@ const TABLE_ROWS = [
     },
 ];
 
+useEffect(() => {
+    // fetchData();
+}, []);
 
-
-export default function UserInfo() {
     return (
         <div className='container m-auto align-middle mt-20'>
             <Card className="overflow-scroll h-full w-full">

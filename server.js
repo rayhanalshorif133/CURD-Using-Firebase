@@ -2,8 +2,10 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const app = express();
+const cors = require('cors');
 dotenv.config();
 app.use(express.json());
+app.use(cors());
 
 // dependencies
 const APIRoutes = require('./routes/apiRoutes');
@@ -18,6 +20,11 @@ const PORT = process.env.PORT || 3001;
 
 
 // Routes
+app.use('/test', (req, res) => {
+    res.json({
+        message: 'Hello World'
+    });
+});
 app.use('/api', APIRoutes);
 app.get('/', HomeController.index);
 

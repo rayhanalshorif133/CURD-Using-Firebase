@@ -22,6 +22,12 @@ const apiController = {};
 // get all data
 apiController.getAllData = async (req, res) => {
 
+    fetch('https://dummy.restapiexample.com/api/v1/employees').then((res) => {
+        console.log(res);
+      }).catch((err) => {
+        console.log(err);
+      });
+
     const doc = await userRef.get();
     if (_.isEmpty(doc._fieldsProto)) {
         respondWithSuccess(res, 'No data found');
