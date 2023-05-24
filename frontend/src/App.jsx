@@ -8,6 +8,8 @@ import {
 } from "react-router-dom";
 import "./index.css";
 import Home from './pages/Home';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const router = createBrowserRouter([
   {
@@ -16,11 +18,16 @@ const router = createBrowserRouter([
   },
 ]);
 
+
+
+
 function App() {
+
 
   return (
     <>
       <RouterProvider router={router} />
+      <ToastContainer />
     </>
   )
 }

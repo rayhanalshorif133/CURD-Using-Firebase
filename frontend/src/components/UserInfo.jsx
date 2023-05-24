@@ -16,12 +16,16 @@ export default function UserInfo() {
         const URL = `${VITE_APP_API_URL}/fetch-all`
         const response = await axios.get(URL);
         const { status, data, message } = response.data;
-        if (status === true) {
+
+        if (status == true) {
+            if(data.length == 0){
+                setIsLoading("No data found");
+                return;
+            }
             setUserData(data);
             setIsLoading(false);
-        } else {
-            console.log(message);
         }
+
     };
 
 
@@ -52,11 +56,11 @@ export default function UserInfo() {
                     <tbody>
                         {
                             isLoading ? <>
-                                <tr className="animate-pulse">
+                                <tr className={isLoading == true? 'animate-pulse' : ""}>
                                     {/* middle */}
-                                    <td className="p-4 border-b border-blue-gray-50">
+                                    <td colspan="5" className="p-4 border-b border-blue-gray-50 text-center">
                                         <Typography variant="small" color="blue-gray" className="font-normal place-content-center">
-                                            Loading...
+                                            {isLoading}
                                         </Typography>
                                     </td>
                                 </tr>

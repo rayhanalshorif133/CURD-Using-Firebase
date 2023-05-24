@@ -22,11 +22,6 @@ const apiController = {};
 // get all data
 apiController.getAllData = async (req, res) => {
 
-    fetch('https://dummy.restapiexample.com/api/v1/employees').then((res) => {
-        console.log(res);
-      }).catch((err) => {
-        console.log(err);
-      });
 
     const doc = await userRef.get();
     if (_.isEmpty(doc._fieldsProto)) {
@@ -71,6 +66,8 @@ apiController.createData = async (req, res) => {
     bcrypt.hash(password, 10, function (err, hash) {
         hasPass = hash;
     });
+
+    console.log( name, email, phone, address, password);
 
     var getDoc = await userRef.get();
     var _id = "";
