@@ -56,7 +56,7 @@ export default function UserInfo() {
                     <Button size="sm" onClick={handleOpen} variant="gradient" color="green" className="mr-6">Add New</Button>
                     <div className="flex gap-2">
                         <Chip color="purple" value="Card" />
-                        <Switch id="info" color="info" defaultChecked onChange={handleSwitch} />
+                        <Switch id="teal" color="teal" defaultChecked onChange={handleSwitch} />
                         <Chip color="teal" value="Table" />
                     </div>
                 </div>

@@ -39,7 +39,7 @@ export default function UserDataMap() {
                         </td>
 
                         <td className={classes}>
-                            <ActionsButtons isView={true} id={_id} />
+                            <ActionsButtons isView={true} useId={_id} />
                         </td>
                     </tr>
                 );

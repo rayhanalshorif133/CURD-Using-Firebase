@@ -1,57 +1,33 @@
-import { Fragment, useState, useContext, useEffect } from "react";
-import {
-    Button,
-    Dialog,
-    DialogHeader,
-    DialogBody,
-    DialogFooter,
-    Spinner,
-    Typography
-} from "@material-tailwind/react";
-
-
-import {
-    BanknotesIcon,
-    StarIcon,
-    HeartIcon,
-    WifiIcon,
-    HomeIcon,
-    TvIcon,
-    FireIcon,
-} from "@heroicons/react/24/solid";
-
+import { Fragment, useState, useContext, useEffect, useReducer } from "react";
+import { Button, Dialog, DialogHeader, DialogBody, DialogFooter, Spinner, Typography } from "@material-tailwind/react";
 import { ButtonContext } from "../ActionsButtons";
+import { actionBtnReducer } from "../../libs/Actions";
 
 export default function View() {
 
-    const { openView, handleOpenView, useId } = useContext(ButtonContext);
     const { VITE_APP_API_URL } = import.meta.env;
-    const [userData, setUserData] = useState({
+
+    const { openView, handleOpenView, useId } = useContext(ButtonContext);
+
+    const initialState = {
+        useId: useId,
         name: '',
         address: '',
         phone: '',
         email: '',
         status: false
-    });
+    };
+
+    const [userState, dispatch] = useReducer(actionBtnReducer, initialState);
 
     useEffect(() => {
-        if (useId !== null) {
-            fetch(`${VITE_APP_API_URL}/fetch/${useId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status == true) {
-                        const { name, address, phone, email } = data.data;
-                        setUserData({
-                            name: name,
-                            address: address,
-                            phone: phone,
-                            email: email,
-                            status: true
-                        });
-                    }
-                });
+        const getUser = async () => {
+            const response = await fetch(`${VITE_APP_API_URL}/fetch/${useId}`);
+            const data = await response.json();
+            dispatch({ type: 'view', payload: data });
         }
-    }, [useId]);
+        getUser();
+    }, [handleOpenView]);
 
 
     return (
@@ -63,18 +39,18 @@ export default function View() {
                     </DialogHeader>
                     <DialogBody divider className="text-center">
                         {
-                            userData.status === false ? <Spinner className="m-auto text-center" /> : <>
+                            userState.status === false ? <Spinner className="m-auto text-center" /> : <>
                                 <Typography variant="h4" color="blue-gray" className="mb-2">
-                                    {userData.name !== '' ? userData.name : <Spinner />}
+                                    {userState.name !== '' ? userState.name : <Spinner />}
                                 </Typography>
                                 <Typography color="blue" className="font-medium" textGradient>
-                                    <i className="fa fa-envelope" aria-hidden="true"></i> {userData.email !== '' ? userData.email : <Spinner />}
+                                    <i className="fa fa-envelope" aria-hidden="true"></i> {userState.email !== '' ? userState.email : <Spinner />}
                                 </Typography>
-                                <Typography color="deep-orange" className="font-medium" textGradient>
-                                    <i className="fa fa-home" aria-hidden="true"></i> {userData.address !== '' ? userData.address : <Spinner />}
+                                <Typography color="brown" className="font-medium" textGradient>
+                                    <i className="fa fa-home" aria-hidden="true"></i> {userState.address !== '' ? userState.address : <Spinner />}
                                 </Typography>
                                 <Typography color="green" className="font-medium" textGradient>
-                                    <i className="fa fa-phone" aria-hidden="true"></i> {userData.phone !== '' ? userData.phone : <Spinner />}
+                                    <i className="fa fa-phone" aria-hidden="true"></i> {userState.phone !== '' ? userState.phone : <Spinner />}
                                 </Typography>
                             </>
                         }

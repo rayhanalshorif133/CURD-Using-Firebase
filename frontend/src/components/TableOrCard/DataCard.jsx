@@ -22,11 +22,11 @@ export default function DataCard() {
                 isLoading ? <>
                     isLoading
                 </> : <>
-                    <div class={grid}>
+                    <div className={grid}>
                         {
-                            userData.map(({ name, email, phone, address }, index) => {
+                            userData.map(({ _id, name, email, phone, address }, index) => {
                                 return (
-                                    <Card className="mt-6 w-96 md:w-80 sm:w-auto">
+                                    <Card className="mt-6 w-96 md:w-80 sm:w-auto" key={index}>
                                         <CardBody>
                                             <Typography variant="h5" color="blue-gray" className="mb-2 capitalize">
                                                 {name}
@@ -43,7 +43,7 @@ export default function DataCard() {
                                             </Typography>
                                         </CardBody>
                                         <CardFooter className="pt-0">
-                                            <ActionsButtons isView={false} />
+                                            <ActionsButtons isView={false} useId={_id} />
                                         </CardFooter>
                                     </Card>
                                 );

@@ -1,23 +1,22 @@
 import { IconButton } from '@material-tailwind/react';
 import React, { useReducer, createContext, useState } from 'react'
 import View from './modals/View';
+import { actionBtnReducer } from '../libs/Actions';
 
 
 
 export const ButtonContext = createContext();
 
-export default function ActionsButtons({ isView, id }) {
+export default function ActionsButtons({ isView, useId }) {
     const viewBtn = 'rounded-none hover:bg-white hover:text-purple-500 transition duration-200 ease-in-out transform hover:scale-105';
     const editBtn = 'rounded-none hover:bg-white hover:text-cyan-500 transition duration-200 ease-in-out transform hover:scale-105';
     const deleteBtn = 'rounded-none hover:bg-white hover:text-red-500 transition duration-200 ease-in-out transform hover:scale-105';
 
+
+
     const [openView, setOpenView] = useState(false);
-    const [useId, setUseId] = useState(null);
-    const handleOpenView = (id) => {
-        setOpenView(!openView);
-        if (useId === null) {
-            setUseId(id);
-        }
+    const handleOpenView = () => {
+        setOpenView(!openView)
     };
 
     const [openEdit, setOpenEdit] = useState(false);
@@ -38,7 +37,7 @@ export default function ActionsButtons({ isView, id }) {
                 {
                     isView ? <>
                         <IconButton size='sm' color='purple' className={viewBtn} onClick={() => {
-                            handleOpenView(id);
+                            handleOpenView();
                         }}>
                             <i className="fas fa-eye" />
                         </IconButton>
