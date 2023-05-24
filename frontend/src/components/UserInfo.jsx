@@ -41,6 +41,7 @@ export default function UserInfo() {
     };
 
 
+
     useEffect(() => {
         fetchData();
         setTableCard(!tableCard);

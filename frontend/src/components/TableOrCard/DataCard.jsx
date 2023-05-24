@@ -6,6 +6,7 @@ import {
     Button
 } from "@material-tailwind/react";
 import React from 'react'
+import ActionsButtons from "../ActionsButtons";
 
 export default function DataCard(props) {
 
@@ -24,8 +25,9 @@ export default function DataCard(props) {
                                 return (
                                     <Card className="mt-6 w-96">
                                         <CardBody>
-                                            <Typography variant="h5" color="blue-gray" className="mb-2">
+                                            <Typography variant="h5" color="blue-gray" className="mb-2 capitalize">
                                                 {name}
+                                                <hr />
                                             </Typography>
                                             <Typography>
                                                 {email}
@@ -38,7 +40,7 @@ export default function DataCard(props) {
                                             </Typography>
                                         </CardBody>
                                         <CardFooter className="pt-0">
-                                            <Button size="sm">Read More</Button>
+                                            <ActionsButtons isView={false} />
                                         </CardFooter>
                                     </Card>
                                 );
