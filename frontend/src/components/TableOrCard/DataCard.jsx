@@ -5,13 +5,16 @@ import {
     Typography,
     Button
 } from "@material-tailwind/react";
-import React from 'react'
+import React, { useContext } from 'react'
 import ActionsButtons from "../ActionsButtons";
+import { UserDataAndIsLoadingContext } from "../UserInfo";
 
-export default function DataCard(props) {
+export default function DataCard() {
 
 
-    const { userData, isLoading } = props;
+    const { userData, isLoading } = useContext(UserDataAndIsLoadingContext);
+
+    const grid = 'grid grid-cols-3 gap-4 lg:grid-cols-3 lg:gap-4 md:grid-cols-2 md:gap-2 sm:grid-cols-1 sm:gap-1 w-full';
 
     return (
         <div className="p-5">
@@ -19,11 +22,11 @@ export default function DataCard(props) {
                 isLoading ? <>
                     isLoading
                 </> : <>
-                    <div class="grid grid-cols-3 gap-4">
+                    <div class={grid}>
                         {
                             userData.map(({ name, email, phone, address }, index) => {
                                 return (
-                                    <Card className="mt-6 w-96">
+                                    <Card className="mt-6 w-96 md:w-80 sm:w-auto">
                                         <CardBody>
                                             <Typography variant="h5" color="blue-gray" className="mb-2 capitalize">
                                                 {name}

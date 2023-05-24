@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 const TABLE_HEAD = ["Name", "Email", "Address", "Phone", "Actions"];
 import { Card, Typography, Button, Switch } from "@material-tailwind/react";
 import UserDataMap from '../UserDataMap';
+import { UserDataAndIsLoadingContext } from '../UserInfo';
 
-export default function Table(props) {
-    const { userData, isLoading } = props;
+export default function Table() {
+    const { isLoading } = useContext(UserDataAndIsLoadingContext);
+
     return (
         <>
             <table className="w-full min-w-max table-auto text-left">
@@ -35,7 +37,7 @@ export default function Table(props) {
                                 </td>
                             </tr>
                         </> : <>
-                            <UserDataMap userData={userData} />
+                            <UserDataMap />
                         </>
                     }
                 </tbody>

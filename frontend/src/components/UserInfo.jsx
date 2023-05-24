@@ -7,6 +7,7 @@ import DataCard from "./TableOrCard/DataCard";
 
 
 export const FetchDataContext = React.createContext();
+export const UserDataAndIsLoadingContext = React.createContext();
 
 export default function UserInfo() {
 
@@ -62,13 +63,15 @@ export default function UserInfo() {
                 <FetchDataContext.Provider value={{ setIsLoading, open, setOpen, handleOpen, }}>
                     <AddNewUser />
                 </FetchDataContext.Provider>
-                {
-                    tableCard ? <>
-                        <Table userData={userData} isLoading={isLoading} />
-                    </> : <>
-                        <DataCard userData={userData} isLoading={isLoading} />
-                    </>
-                }
+                <UserDataAndIsLoadingContext.Provider value={{ userData, isLoading }}>
+                    {
+                        tableCard ? <>
+                            <Table />
+                        </> : <>
+                            <DataCard />
+                        </>
+                    }
+                </UserDataAndIsLoadingContext.Provider>
             </Card>
         </div>
     )
