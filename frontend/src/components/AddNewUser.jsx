@@ -12,9 +12,13 @@ import axios from "axios";
 
 import React, { Fragment, useState } from 'react';
 import { toast } from "react-toastify";
+import { FetchDataContext } from "./UserInfo";
 
 
 export default function AddNewUser() {
+
+    const {setIsLoading} = React.useContext(FetchDataContext);
+
     const [open, setOpen] = useState(false);
     const { VITE_APP_API_URL } = import.meta.env;
     const [user, setUser] = useState({
@@ -45,6 +49,7 @@ export default function AddNewUser() {
         axios.post(`${VITE_APP_API_URL}/create`, user)
             .then((response) => {
                 console.log(response);
+                setIsLoading(true);
             })
             .catch((error) => {
                 console.log(error);

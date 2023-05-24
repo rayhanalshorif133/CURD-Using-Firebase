@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect } from 'react';
 import AddNewUser from './AddNewUser';
 
+export const FetchDataContext = React.createContext();
 
 export default function UserInfo() {
 
@@ -12,13 +13,14 @@ export default function UserInfo() {
 
     const TABLE_HEAD = ["Name", "Email", "Address", "Phone", "Actions"];
 
+
     const fetchData = async () => {
         const URL = `${VITE_APP_API_URL}/fetch-all`
         const response = await axios.get(URL);
         const { status, data, message } = response.data;
 
         if (status == true) {
-            if(data.length == 0){
+            if (data.length == 0) {
                 setIsLoading("No data found");
                 return;
             }
@@ -36,7 +38,9 @@ export default function UserInfo() {
     return (
         <div className='container m-auto align-middle mt-20'>
             <Card className="overflow-scroll h-full w-full">
-                <AddNewUser />
+                <FetchDataContext.Provider value={{ setIsLoading }}>
+                    <AddNewUser />
+                </FetchDataContext.Provider>
                 <table className="w-full min-w-max table-auto text-left">
                     <thead>
                         <tr>
@@ -56,7 +60,7 @@ export default function UserInfo() {
                     <tbody>
                         {
                             isLoading ? <>
-                                <tr className={isLoading == true? 'animate-pulse' : ""}>
+                                <tr className={isLoading == true ? 'animate-pulse' : ""}>
                                     {/* middle */}
                                     <td colspan="5" className="p-4 border-b border-blue-gray-50 text-center">
                                         <Typography variant="small" color="blue-gray" className="font-normal place-content-center">
