@@ -22,6 +22,7 @@ const apiController = {};
 // get all data
 apiController.getAllData = async (req, res) => {
 
+
     const doc = await userRef.get();
     if (_.isEmpty(doc._fieldsProto)) {
         respondWithSuccess(res, 'No data found');
@@ -65,6 +66,8 @@ apiController.createData = async (req, res) => {
     bcrypt.hash(password, 10, function (err, hash) {
         hasPass = hash;
     });
+
+    console.log( name, email, phone, address, password);
 
     var getDoc = await userRef.get();
     var _id = "";
