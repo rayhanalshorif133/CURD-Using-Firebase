@@ -39,7 +39,6 @@ export default function Create() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setOpen(!open);
         if (user.password !== user.confirmPassword) {
             toast.error('Password and Confirmation Password must be same');
             return;
@@ -48,6 +47,7 @@ export default function Create() {
         delete user.confirmPassword;
         axios.post(`${VITE_APP_API_URL}/create`, user)
             .then((response) => {
+                setOpen(!open);
                 setIsLoading(true);
             })
             .catch((error) => {

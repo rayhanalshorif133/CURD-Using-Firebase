@@ -33,6 +33,11 @@ export default function Edit() {
         e.preventDefault();
         handleOpenEdit();
         if (user.password !== user.confirmPassword) {
+            setUser({
+                ...user,
+                password: user.password,
+                confirmPassword: ''
+            });
             toast.error('Password and Confirmation Password must be same');
             return;
         }

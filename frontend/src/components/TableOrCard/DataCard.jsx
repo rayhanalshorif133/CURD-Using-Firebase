@@ -21,7 +21,12 @@ export default function DataCard() {
             {
                 isLoading ? <>
                     <div className="text-center">
-                        <Spinner color="blue" size="xl" className="text-center m-auto" />
+                        {isLoading == true ? <>
+                            <Spinner color="blue" size="xl" className="text-center m-auto" />
+
+                        </> : <>
+                            No Data Found
+                        </>}
                     </div>
                 </> : <>
                     <div className={grid}>
