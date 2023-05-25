@@ -1,7 +1,9 @@
-import { IconButton } from '@material-tailwind/react';
-import React, { useReducer, createContext, useState } from 'react'
-import View from './modals/View';
-import { actionBtnReducer } from '../libs/Actions';
+import { IconButton, Spinner } from '@material-tailwind/react';
+import React, { createContext, useState, Suspense, useContext } from 'react'
+import View from './actions/View';
+import Edit from './actions/Edit';
+import { handleDelete } from './actions/Delete';
+import { UserDataAndIsLoadingContext } from './UserInfo';
 
 
 
@@ -12,7 +14,7 @@ export default function ActionsButtons({ isView, useId }) {
     const editBtn = 'rounded-none hover:bg-white hover:text-cyan-500 transition duration-200 ease-in-out transform hover:scale-105';
     const deleteBtn = 'rounded-none hover:bg-white hover:text-red-500 transition duration-200 ease-in-out transform hover:scale-105';
 
-
+    const { isLoading, setIsLoading } = useContext(UserDataAndIsLoadingContext);
 
     const [openView, setOpenView] = useState(false);
     const handleOpenView = () => {
@@ -21,7 +23,9 @@ export default function ActionsButtons({ isView, useId }) {
 
     const [openEdit, setOpenEdit] = useState(false);
 
-    const handleOpenEdit = () => openEdit(!openEdit);
+    const handleOpenEdit = () => {
+        setOpenEdit(!openEdit);
+    };
 
     const value = {
         openView,
@@ -43,15 +47,22 @@ export default function ActionsButtons({ isView, useId }) {
                         </IconButton>
                     </> : <></>
                 }
-                <IconButton size='sm' color='cyan' className={editBtn}>
+                <IconButton size='sm' color='cyan' className={editBtn} onClick={() => {
+                    handleOpenEdit();
+                }}>
                     <i className="fas fa-edit" />
                 </IconButton>
-                <IconButton size='sm' color='red' className={deleteBtn}>
+                <IconButton size='sm' color='red' className={deleteBtn} onClick={() => {
+                    handleDelete(useId, setIsLoading, isLoading);
+                }}>
                     <i className="fas fa-trash" />
                 </IconButton>
             </div>
             <ButtonContext.Provider value={value}>
-                <View />
+                <Suspense fallback={<Spinner />}>
+                    <View />
+                    <Edit />
+                </Suspense>
             </ButtonContext.Provider>
         </>
     )

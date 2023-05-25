@@ -1,11 +1,9 @@
 import React, { useContext } from 'react'
-const TABLE_HEAD = ["Name", "Email", "Address", "Phone", "Actions"];
-import { Card, Typography, Button, Switch } from "@material-tailwind/react";
+import { Typography } from "@material-tailwind/react";
 import UserDataMap from '../UserDataMap';
-import { UserDataAndIsLoadingContext } from '../UserInfo';
 
-export default function Table() {
-    const { isLoading } = useContext(UserDataAndIsLoadingContext);
+export default function Table({ isLoading }) {
+    const TABLE_HEAD = ["Name", "Email", "Address", "Phone", "Actions"];
 
     return (
         <>

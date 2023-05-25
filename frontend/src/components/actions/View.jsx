@@ -24,7 +24,7 @@ export default function View() {
         const getUser = async () => {
             const response = await fetch(`${VITE_APP_API_URL}/fetch/${useId}`);
             const data = await response.json();
-            dispatch({ type: 'view', payload: data });
+            dispatch({ type: 'view', payload: data.data });
         }
         getUser();
     }, [handleOpenView]);

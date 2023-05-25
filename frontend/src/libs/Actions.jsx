@@ -1,20 +1,22 @@
 
-
-
 export const actionBtnReducer = (state, action) => {
     switch (action.type) {
         case 'view':
-            const { data } = action.payload;
             return {
-                name: data.name,
-                address: data.address,
-                phone: data.phone,
-                email: data.email,
+                name: action.payload.name,
+                address: action.payload.address,
+                phone: action.payload.phone,
+                email: action.payload.email,
                 status: true
             }
         case 'edit':
-            return 'ID is coming';
-            break;
+            return {
+                name: action.payload.name,
+                address: action.payload.address,
+                phone: action.payload.phone,
+                email: action.payload.email,
+                status: true
+            }
         default:
             throw new Error();
     }

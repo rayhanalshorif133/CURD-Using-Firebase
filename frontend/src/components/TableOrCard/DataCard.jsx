@@ -3,7 +3,7 @@ import {
     CardBody,
     CardFooter,
     Typography,
-    Button
+    Spinner
 } from "@material-tailwind/react";
 import React, { useContext } from 'react'
 import ActionsButtons from "../ActionsButtons";
@@ -20,7 +20,9 @@ export default function DataCard() {
         <div className="p-5">
             {
                 isLoading ? <>
-                    isLoading
+                    <div className="text-center">
+                        <Spinner color="blue" size="xl" className="text-center m-auto" />
+                    </div>
                 </> : <>
                     <div className={grid}>
                         {

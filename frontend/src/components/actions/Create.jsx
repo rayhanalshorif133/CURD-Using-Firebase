@@ -13,10 +13,10 @@ import axios from "axios";
 
 import React, { Fragment, useState } from 'react';
 import { toast } from "react-toastify";
-import { FetchDataContext } from "./UserInfo";
+import { FetchDataContext } from "../UserInfo";
 
 
-export default function AddNewUser() {
+export default function Create() {
 
     const { setIsLoading, open, setOpen, handleOpen, } = React.useContext(FetchDataContext);
 
@@ -48,7 +48,6 @@ export default function AddNewUser() {
         delete user.confirmPassword;
         axios.post(`${VITE_APP_API_URL}/create`, user)
             .then((response) => {
-                console.log(response);
                 setIsLoading(true);
             })
             .catch((error) => {

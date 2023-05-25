@@ -1,7 +1,7 @@
 import { Card, Chip, Button, Switch } from "@material-tailwind/react";
 import axios from "axios";
 import React, { useEffect } from 'react';
-import AddNewUser from './AddNewUser';
+import Create from './actions/Create';
 import Table from "./TableOrCard/Table";
 import DataCard from "./TableOrCard/DataCard";
 
@@ -61,12 +61,12 @@ export default function UserInfo() {
                     </div>
                 </div>
                 <FetchDataContext.Provider value={{ setIsLoading, open, setOpen, handleOpen, }}>
-                    <AddNewUser />
+                    <Create />
                 </FetchDataContext.Provider>
-                <UserDataAndIsLoadingContext.Provider value={{ userData, isLoading }}>
+                <UserDataAndIsLoadingContext.Provider value={{ userData, isLoading, setIsLoading }}>
                     {
                         tableCard ? <>
-                            <Table />
+                            <Table isLoading={isLoading} />
                         </> : <>
                             <DataCard />
                         </>
