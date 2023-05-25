@@ -6,16 +6,20 @@ import {
     DialogFooter,
     DialogHeader,
     Input,
-    Typography
+    Typography,
+    Switch
 } from "@material-tailwind/react";
 import axios from "axios";
 
 import React, { Fragment, useState } from 'react';
 import { toast } from "react-toastify";
+import { FetchDataContext } from "../UserInfo";
 
 
-export default function AddNewUser() {
-    const [open, setOpen] = useState(false);
+export default function Create() {
+
+    const { setIsLoading, open, setOpen, handleOpen, } = React.useContext(FetchDataContext);
+
     const { VITE_APP_API_URL } = import.meta.env;
     const [user, setUser] = useState({
         name: '',
@@ -25,7 +29,7 @@ export default function AddNewUser() {
         password: '',
         confirmPassword: ''
     });
-    const handleOpen = () => setOpen(!open);
+
 
     const handleOnChange = (e) => {
         setUser({ ...user, [e.target.name]: e.target.value });
@@ -35,7 +39,6 @@ export default function AddNewUser() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setOpen(!open);
         if (user.password !== user.confirmPassword) {
             toast.error('Password and Confirmation Password must be same');
             return;
@@ -44,7 +47,8 @@ export default function AddNewUser() {
         delete user.confirmPassword;
         axios.post(`${VITE_APP_API_URL}/create`, user)
             .then((response) => {
-                console.log(response);
+                setOpen(!open);
+                setIsLoading(true);
             })
             .catch((error) => {
                 console.log(error);
@@ -55,9 +59,6 @@ export default function AddNewUser() {
 
     return (
         <>
-            <div className="m-3 justify-center">
-                <Button size="sm" onClick={handleOpen} variant="gradient" color="green">Add New</Button>
-            </div>
             <Fragment>
                 <Dialog open={open} handler={handleOpen}>
                     <DialogHeader>Add New User</DialogHeader>
